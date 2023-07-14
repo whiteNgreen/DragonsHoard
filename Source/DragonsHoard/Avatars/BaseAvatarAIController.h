@@ -18,8 +18,14 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable)
-		void MoveOrder(FVector Location);
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+		EPathFollowingRequestResult::Type MoveOrder(FVector Location);
+	virtual EPathFollowingRequestResult::Type MoveOrder_Implementation(FVector Location);
+
+	virtual void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "TimeTick")
+		class ATimeManager* TimerManager{ nullptr };
 
 protected:
 	//UPROPERTY(BlueprintReadWrite, Category = "Movement")

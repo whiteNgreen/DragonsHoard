@@ -22,12 +22,19 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	virtual void BeginDestroy() override;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 		void StartMovement(USplineComponent* path);
 	void StartMovement_Implementation(USplineComponent* path);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+		void MoveAlongSpline(float DeltaTime);
+	void MoveAlongSpline_Implementation(float DeltaTime);
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		USplineComponent* Path{ nullptr };
 

@@ -7,6 +7,9 @@
 #include "GameFramework/PlayerController.h"
 #include "DragonPlayerController.generated.h"
 
+
+class ATimeManager;
+class APlayerPawn;
 /**
  * 
  */
@@ -32,7 +35,9 @@ public:
 
 private:
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-		class APlayerPawn* ControllerPawn;
+		APlayerPawn* ControllerPawn;
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		ATimeManager* TimerManager{ nullptr };
 	/**
 	* Enhanced input mapping context and actions
 	*/

@@ -45,5 +45,6 @@ public:
 		TArray<AActor*> villagePaths;
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> raidpartyclass;
-	void SpawnRaidParty();
+	UFUNCTION(BlueprintCallable)
+		void SpawnRaidParty();
 };

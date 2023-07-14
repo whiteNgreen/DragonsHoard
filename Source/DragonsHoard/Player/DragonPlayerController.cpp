@@ -6,14 +6,25 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "PlayerPawn.h"
+#include "Kismet/GameplayStatics.h"
+#include "../Managers/TimeManager.h"
 
 void ADragonPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+
 	if (UEnhancedInputLocalPlayerSubsystem* SubSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		SubSystem->AddMappingContext(DefaultMappingContext, 0);
 	}
+
+	TM_GetTimerManager(this, TimerManager);
+	
+	//AActor* tm = UGameplayStatics::GetActorOfClass(GetWorld(), ATimeManager::StaticClass());
+	//if (tm)
+	//	TimerManager = Cast<ATimeManager>(tm);
+	//else
+	//	UE_LOG(LogTemp, Error, TEXT("%s. Player Controller failed to get TimerManager of class %s"), *GetName(), *ATimeManager::StaticClass()->GetDefaultObject()->GetName());
 }
 
 void ADragonPlayerController::OnPossess(APawn* InPawn)

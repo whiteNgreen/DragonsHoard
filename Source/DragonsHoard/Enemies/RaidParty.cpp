@@ -3,6 +3,8 @@
 
 #include "RaidParty.h"
 #include "VillagePath.h"
+#include "../Managers/TimeManager.h"
+#include "DebugMacros.h"
 
 // Sets default values
 ARaidParty::ARaidParty()
@@ -17,6 +19,13 @@ void ARaidParty::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	TM_Simple_AddTick(this, &ARaidParty::MoveAlongSpline_Implementation);
+}
+
+void ARaidParty::BeginDestroy()
+{
+	TM_Simple_RemoveTick(this, &ARaidParty::MoveAlongSpline_Implementation);
+	Super::BeginDestroy();
 }
 
 // Called every frame
@@ -29,5 +38,10 @@ void ARaidParty::Tick(float DeltaTime)
 void ARaidParty::StartMovement_Implementation(USplineComponent* path)
 {
 	Path = path;
+}
+
+void ARaidParty::MoveAlongSpline_Implementation(float DeltaTime)
+{
+	PRINT("MOVING ALONG");
 }
 

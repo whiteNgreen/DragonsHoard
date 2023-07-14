@@ -4,10 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "GameplayTagAssetInterface.h"
 #include "BaseAvatarPawn.generated.h"
 
 UCLASS()
-class DRAGONSHOARD_API ABaseAvatarPawn : public ACharacter
+class DRAGONSHOARD_API ABaseAvatarPawn : public ACharacter,
+	public IGameplayTagAssetInterface
 {
 	GENERATED_BODY()
 
@@ -24,4 +26,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 
+	FGameplayTagContainer GameplayTags;
+	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const { TagContainer = GameplayTags };
 };

@@ -3,10 +3,19 @@
 
 #include "BaseAvatarAIController.h"
 #include "DebugMacros.h"
+#include "Kismet/GameplayStatics.h"
+#include "../Managers/TimeManager.h"
 
 void ABaseAvatarAIController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
+
+	AActor* tm = UGameplayStatics::GetActorOfClass(GetWorld(), ATimeManager::StaticClass());
+	if (tm)
+		TimerManager = Cast<ATimeManager>(tm);
+	else
+		UE_LOG(LogTemp, Error, TEXT("%s. failed to get TimerManager of class %s"), *GetName(), *ATimeManager::StaticClass()->GetDefaultObject()->GetName());
+
 }
 
 void ABaseAvatarAIController::Tick(float DeltaTime)
@@ -15,7 +24,16 @@ void ABaseAvatarAIController::Tick(float DeltaTime)
 
 }
 
-void ABaseAvatarAIController::MoveOrder(FVector Location)
+EPathFollowingRequestResult::Type ABaseAvatarAIController::MoveOrder_Implementation(FVector Location)
 {
-	MoveToLocation(Location);
+	return MoveToLocation(Location);
+}
+
+void ABaseAvatarAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result)
+{
+	Super::OnMoveCompleted(RequestID, Result);
+	if (TimerManager)
+	{
+		TimerManager->TrySetTimeTick(ETimeTick::Pause);
+	}
 }

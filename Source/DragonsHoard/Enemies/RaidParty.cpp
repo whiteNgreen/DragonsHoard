@@ -19,12 +19,12 @@ void ARaidParty::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	TM_Simple_AddTick(this, &ARaidParty::MoveAlongSpline_Implementation);
+	TM_Simple_AddTick(this, &ARaidParty::MoveAlongSpline);
 }
 
 void ARaidParty::BeginDestroy()
 {
-	TM_Simple_RemoveTick(this, &ARaidParty::MoveAlongSpline_Implementation);
+	TM_Simple_RemoveTick(this, &ARaidParty::MoveAlongSpline);
 	Super::BeginDestroy();
 }
 

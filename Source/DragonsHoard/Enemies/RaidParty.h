@@ -4,12 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameplayTagAssetInterface.h"
 #include "RaidParty.generated.h"
 
 class USplineComponent;
 
 UCLASS()
-class DRAGONSHOARD_API ARaidParty : public AActor
+class DRAGONSHOARD_API ARaidParty : public AActor,
+	public IGameplayTagAssetInterface
 {
 	GENERATED_BODY()
 	
@@ -26,6 +28,12 @@ public:
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(BlueprintReadWrite, Category = "GameplayTags")
+		FGameplayTagContainer GameplayTags;
+	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const { TagContainer = GameplayTags; };
+
+
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 		void StartMovement(USplineComponent* path);

@@ -26,6 +26,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 
-	FGameplayTagContainer GameplayTags;
-	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const { TagContainer = GameplayTags };
+	UPROPERTY(BlueprintReadWrite, Category = "GameplayTags")
+		FGameplayTagContainer GameplayTags;
+	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const { TagContainer = GameplayTags; };
 };

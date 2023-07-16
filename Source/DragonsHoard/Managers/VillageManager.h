@@ -32,10 +32,12 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	UFUNCTION()
+		void TimerTick(float DeltaTime);
 
 	FTimerManager TimerManager;
 
-	// tmp method for spawning raidparties. Just for testing the GlobalTimeManager. -- TODO change to include buttons and stuff
+	// tmp method for spawning raidparties. Just for testing the GlobalTimeManager. -- TODO change to include buttons and stuff to spawn villages randomly in runtime
 	FTimerHandle TH_RaidSpawn;
 	UPROPERTY(EditAnywhere)
 		float SpawnInterval{ 2.f };

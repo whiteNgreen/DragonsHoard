@@ -4,6 +4,8 @@
 #include "VillageManager.h"
 #include "../Enemies/RaidParty.h"
 #include "../Enemies/VillagePath.h"
+#include "TimeManager.h"
+#include "DebugMacros.h"
 
 // Sets default values
 AVillageManager::AVillageManager()
@@ -19,13 +21,20 @@ void AVillageManager::BeginPlay()
 	Super::BeginPlay();
 	
 	TimerManager.SetTimer(TH_RaidSpawn, this, &AVillageManager::SpawnRaidParty, SpawnInterval, true);
+
+	TM_Simple_AddTick(this, &AVillageManager::TimerTick);
 }
 
 // Called every frame
 void AVillageManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void AVillageManager::TimerTick(float DeltaTime)
+{
 	TimerManager.Tick(DeltaTime);
+	PRINT("Village Manager Tick");
 }
 
 void AVillageManager::SpawnRaidParty()

@@ -42,6 +42,5 @@ void ARaidParty::StartMovement_Implementation(USplineComponent* path)
 
 void ARaidParty::MoveAlongSpline_Implementation(float DeltaTime)
 {
-	PRINT("MOVING ALONG");
 }
 

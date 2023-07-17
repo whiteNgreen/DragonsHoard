@@ -19,12 +19,6 @@ void ADragonPlayerController::BeginPlay()
 	}
 
 	TM_GetTimerManager(this, TimerManager);
-	
-	//AActor* tm = UGameplayStatics::GetActorOfClass(GetWorld(), ATimeManager::StaticClass());
-	//if (tm)
-	//	TimerManager = Cast<ATimeManager>(tm);
-	//else
-	//	UE_LOG(LogTemp, Error, TEXT("%s. Player Controller failed to get TimerManager of class %s"), *GetName(), *ATimeManager::StaticClass()->GetDefaultObject()->GetName());
 }
 
 void ADragonPlayerController::OnPossess(APawn* InPawn)
@@ -51,6 +45,7 @@ void ADragonPlayerController::SetupInputComponent()
 		}
 
 		EIC->BindAction(IA_WorldClickAction, ETriggerEvent::Triggered, this, &ADragonPlayerController::ClickAction);
+		EIC->BindAction(IA_WorldClickAction, ETriggerEvent::Completed, this, &ADragonPlayerController::UnclickAction);
 
 		EIC->BindAction(IA_WorldMovement, ETriggerEvent::Triggered, this, &ADragonPlayerController::WorldMove);
 		EIC->BindAction(IA_WorldMovement, ETriggerEvent::Completed, this, &ADragonPlayerController::WorldMove);
@@ -60,6 +55,10 @@ void ADragonPlayerController::SetupInputComponent()
 void ADragonPlayerController::ClickAction_Implementation()
 {
 	
+}
+
+void ADragonPlayerController::UnclickAction_Implementation()
+{
 }
 
 void ADragonPlayerController::WorldMove(const FInputActionValue& Value)

@@ -26,6 +26,10 @@ public:
 		void ClickAction();
 	void ClickAction_Implementation();
 
+	UFUNCTION(BlueprintNativeEvent, Category = "Player Input")
+		void UnclickAction();
+	void UnclickAction_Implementation();
+
 	void WorldMove(const FInputActionValue& Value);
 	void EndWorldMove();
 

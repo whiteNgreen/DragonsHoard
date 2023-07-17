@@ -36,6 +36,9 @@ void ATimeManager::DelegateTick(float DeltaTime)
 	case ETimeTick::Tick:
 		TimeTickDelegate.Broadcast(DeltaTime);
 		break;
+	case ETimeTick::AlwaysTick:
+		TimeTickDelegate.Broadcast(DeltaTime);
+		break;
 	default:
 		break;
 	}
@@ -43,6 +46,14 @@ void ATimeManager::DelegateTick(float DeltaTime)
 
 bool ATimeManager::TrySetTimeTick_Implementation(ETimeTick timetick)
 {
+	if (TimeTickType == ETimeTick::AlwaysTick && timetick == ETimeTick::LeaveAlwaysTick)
+	{
+		// Leave the AlwaysTick state and the correct next state 
+		//	-- TODO: Change the next state based on the incomming LeaveAlwaysTick as it can require the next state to be Paused or Tick
+		TimeTickType = ETimeTick::Tick;
+		return true;
+	}
+
 	if (TimeTickType == timetick)
 		return false;
 	TimeTickType = timetick;

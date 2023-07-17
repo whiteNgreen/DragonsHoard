@@ -28,6 +28,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		USplineComponent* PathSpline;
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Destruction")
+		void DestroyPath();
+	void DestroyPath_Implementation();
+
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Editor Function")
 		void UpdatePath();
 	void UpdatePath_Implementation();

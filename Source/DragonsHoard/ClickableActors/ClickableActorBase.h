@@ -5,17 +5,18 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GameplayTagAssetInterface.h"
-#include "Village.generated.h"
+#include "ClickableActorBase.generated.h"
+
 
 UCLASS()
-class DRAGONSHOARD_API AVillage : public AActor,
+class DRAGONSHOARD_API AClickableActorBase : public AActor,
 	public IGameplayTagAssetInterface
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AVillage();
+	AClickableActorBase();
 
 protected:
 	// Called when the game starts or when spawned
@@ -25,12 +26,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-		void VisualDestruction();
-	void VisualDestruction_Implementation();
 
-	UPROPERTY(BlueprintReadWrite, Category = "GamplayTags")
+	UPROPERTY(BlueprintReadWrite, Category = "GameplayTags")
 		FGameplayTagContainer GameplayTags;
 	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override { TagContainer = GameplayTags; }
-
 };

@@ -27,6 +27,12 @@ void AVillagePath::Tick(float DeltaTime)
 
 }
 
+void AVillagePath::DestroyPath_Implementation()
+{
+	// Kinda sketchy, as Raidparties mights still be referencing this object. But destroying pathways should probably be done by the manager
+	SetLifeSpan(20.f);
+}
+
 void AVillagePath::UpdatePath_Implementation()
 {
 }

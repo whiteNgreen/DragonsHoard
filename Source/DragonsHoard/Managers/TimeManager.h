@@ -14,7 +14,9 @@ UENUM(BlueprintType)
 enum class ETimeTick : uint8
 {
 	Pause,
-	Tick
+	Tick,
+	AlwaysTick,
+	LeaveAlwaysTick
 };
 
 

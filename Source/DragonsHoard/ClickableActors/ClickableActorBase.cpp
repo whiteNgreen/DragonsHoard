@@ -1,11 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Village.h"
-#include "../Managers/VillageManager.h"
+#include "ClickableActorBase.h"
 
 // Sets default values
-AVillage::AVillage()
+AClickableActorBase::AClickableActorBase()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -13,20 +12,19 @@ AVillage::AVillage()
 }
 
 // Called when the game starts or when spawned
-void AVillage::BeginPlay()
+void AClickableActorBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+
+
 	
 }
 
 // Called every frame
-void AVillage::Tick(float DeltaTime)
+void AClickableActorBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-}
-
-void AVillage::VisualDestruction_Implementation()
-{
 }
 

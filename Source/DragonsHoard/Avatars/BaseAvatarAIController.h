@@ -7,6 +7,7 @@
 #include "BaseAvatarAIController.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMoveCompleted);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSleepOnMoveEnd);
 
 UENUM(BlueprintType)
 enum class EAvatarAIState : uint8
@@ -17,6 +18,11 @@ enum class EAvatarAIState : uint8
 	Attack
 };
 
+
+/**
+* Endte opp veldig skrotete, 
+* En movement assumption burde heller sjekkes når spilleren først klikker på noe inne i move order
+*/
 USTRUCT(BlueprintType)
 struct FMovementAssumption
 {
@@ -55,6 +61,8 @@ public:
 
 	UPROPERTY(BlueprintAssignable, BlueprintReadWrite)
 		FOnMoveCompleted OnMoveCompletedDelegate;
+	UPROPERTY(BlueprintAssignable, BlueprintReadWrite)
+		FSleepOnMoveEnd SleepOnMoveEnd;
 
 public:	// State functions
 	//UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "States")

@@ -52,6 +52,9 @@ void ABaseAvatarAIController::OnMoveCompleted(FAIRequestID RequestID, const FPat
 	{
 		OnMoveCompletedDelegate.Broadcast();
 		OnMoveCompletedDelegate.Clear();
+
+		SleepOnMoveEnd.Broadcast();
+		SleepOnMoveEnd.Clear();
 	}
 	// For not clearing the sleep delegate when movement is interrupted to move towards the Hoard
 	if (MovementAssumption.AssumedNextState == EAvatarAIState::Sleeping &&

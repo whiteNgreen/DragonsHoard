@@ -39,10 +39,10 @@ struct FDestroyedVillage
 public:
 	FDestroyedVillage(){}
 	FDestroyedVillage(const FVillageAndPath village, float timetofinaldestruction)
-		: DestroyedVillage(village), TimeToFinalDestruction(timetofinaldestruction)
+		: VillageAndPath(village), TimeToFinalDestruction(timetofinaldestruction)
 	{}
 	UPROPERTY(BlueprintReadWrite)
-		FVillageAndPath DestroyedVillage{ nullptr };
+		FVillageAndPath VillageAndPath{ nullptr };
 	UPROPERTY(BlueprintReadWrite)
 		float TimeToFinalDestruction{ 10.f };
 	UPROPERTY(BlueprintReadWrite)
@@ -82,6 +82,13 @@ public:
 		void DestroyVillage(AVillage* VillageToDestroy);
 	void DestroyVillage_Implementation(AVillage* VillageToDestroy);
 
+	void SpawnVillage();
+
+	FTimerHandle TH_VillageSpawn;
+	UPROPERTY(EditAnywhere, Category = "Village Spawn")
+		TSubclassOf<AVillagePath> VillagePathClass;
+	UPROPERTY(EditAnywhere, Category = "Village Spawn")
+		TSubclassOf<AVillage> VillageClass;
 
 	// tmp method for spawning raidparties. Just for testing the GlobalTimeManager. -- TODO change to include buttons and stuff to spawn villages randomly in runtime
 	UPROPERTY(BlueprintReadWrite, Category = "TimeTick")

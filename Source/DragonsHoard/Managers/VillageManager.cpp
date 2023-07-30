@@ -23,6 +23,7 @@ void AVillageManager::BeginPlay()
 	
 
 	TM_Simple_AddTick(this, &AVillageManager::TimerTick);
+	SpawnVillage();
 }
 
 // Called every frame
@@ -47,6 +48,8 @@ void AVillageManager::DestroyVillage_Implementation(AVillage* VillageToDestroy)
 	* When a village is destroyed, the linked path will be marked for destruction. 
 	* The struct containing the two will be moved over to a separate TArray to keep track of when they should be 
 	*	finally destroyed and removed from memory
+	* 
+	* TMP METOD: A timer delegate will spawn a new village when on is destroyed
 	*/
 	if (VillagesAndPaths.Num() == 0) 
 		return;
@@ -59,14 +62,18 @@ void AVillageManager::DestroyVillage_Implementation(AVillage* VillageToDestroy)
 		}
 		i++;
 	}
+	if (i >= VillagesAndPaths.Num()) {
+		PRINTLONG(2.f, "Village not found");
+		return;
+	}
 	
 	if (DestroyedVillages.Enqueue(FDestroyedVillage(VillagesAndPaths[i], TimeToFinalVillageDestruction)))
 	{
 		FDestroyedVillage* VTD = DestroyedVillages.Peek();
 		TimerManager.SetTimer(VTD->TH_ToFinalDestruction, [this]() {
 				FDestroyedVillage* VTD = DestroyedVillages.Peek();
-				AVillage* Village = VTD->DestroyedVillage.Village;
-				PRINTARGLONG(2.f, "Final destruction of village: %s", *Village->GetName());
+				AVillage* Village = VTD->VillageAndPath.Village;
+				//PRINTARGLONG(2.f, "Final destruction of village: %s", *Village->GetName());
 				Village->Destroy();
 				
 				DestroyedVillages.Pop();
@@ -74,6 +81,33 @@ void AVillageManager::DestroyVillage_Implementation(AVillage* VillageToDestroy)
 	}
 
 	VillagesAndPaths.RemoveAt(i);
+
+	TimerManager.SetTimer(TH_VillageSpawn, this, &AVillageManager::SpawnVillage, 6.f);
+}
+
+void AVillageManager::SpawnVillage()
+{
+	/**
+	* Spawning village should spawn both a village and a path
+	*/
+	FActorSpawnParameters params;
+	FTransform transform(FRotator(0.0, -169.867181, 0.0), FVector(0, 1148.108454, 0.0), FVector(0.5f));
+	AVillage* village = Cast<AVillage>(GetWorld()->SpawnActor<AActor>(VillageClass, transform, params));
+	AVillagePath* path = Cast<AVillagePath>(GetWorld()->SpawnActor<AActor>(VillagePathClass, transform, params));
+	if (!village || !path)
+	{
+		if (village)	village->Destroy();
+		if (path)		path->Destroy();
+		return;
+	}
+
+	FVillageAndPath vap;
+	village->SetActorScale3D(transform.GetScale3D());
+	path->SourceVillage = village;
+	path->UpdatePath();	// Fører til BP error/warning når den aldri slettes, men oppdateres på ny village spawning
+	vap.Village = village;
+	vap.Path = path;
+	VillagesAndPaths.Add(vap);
 }
 
 void AVillageManager::SpawnRaidParty()
